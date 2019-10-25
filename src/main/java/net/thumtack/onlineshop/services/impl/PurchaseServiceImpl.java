@@ -72,14 +72,15 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public ResponseProductBuyDto buyProduct(HttpServletRequest httpReq, RequestProductBuyDto request) throws ServerExceptions {
+    public ResponseProductBuyDto buyProduct(HttpServletRequest httpReq, RequestProductBuyDto request) {
         validator.isCookieNullCLient(httpReq);
         List<RespError> errorList = new ArrayList<>();
         Client client = new Client();
         String login = clientService.giveClientLoginByCookie(httpReq.getCookies());
         Optional<Client> optClient = clientRepository.findByLogin(login);
         Product product = productRepository.findById(request.getId()).orElseThrow(() -> new ServerExceptions(Collections
-                .singletonList(new RespError(ServerErrors.WRONG_PRODUCT, "id", ServerErrors.WRONG_PRODUCT.getErrorMessage()))));
+                .singletonList(new RespError(ServerErrors.WRONG_PRODUCT, "id",
+                        ServerErrors.WRONG_PRODUCT.getErrorMessage()))));
         if (optClient.isPresent()) {
             client = optClient.get();
         }
@@ -99,7 +100,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Override
     @Transactional(rollbackFor = ServerExceptions.class)
     public ResponseCartBuyDto buyCartProducts(HttpServletRequest httpReq,
-                                              List<RequestProductBuyDto> buyReq) throws ServerExceptions {
+                                              List<RequestProductBuyDto> buyReq) {
         validator.isCookieNullCLient(httpReq);
         ResponseCartBuyDto response = new ResponseCartBuyDto();
         Client client = new Client();
@@ -113,7 +114,8 @@ public class PurchaseServiceImpl implements PurchaseService {
                 if (cart.getProductCart().getId().equals(reqProd.getId())) {
                     if (reqProd.getCount() == null)
                         reqProd.setCount(cart.getCount());
-                    if (reqProd.getName().equalsIgnoreCase(cart.getProductCart().getName()) || reqProd.getPrice().equals(cart.getProductCart().getPrice())) {
+                    if (reqProd.getName().equalsIgnoreCase(cart.getProductCart().getName())
+                            || reqProd.getPrice().equals(cart.getProductCart().getPrice())) {
                         if (cart.getCount() <= reqProd.getCount()) {
                             if (cart.getCount() <= cart.getProductCart().getCount()) {
                                 reqProd.setCount(cart.getCount());
@@ -178,13 +180,14 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     public List commonTableInfo(HttpServletRequest httpReq, String command, List<Integer> value, Integer offset,
-                                Integer limit) throws ServerExceptions {
+                                Integer limit) {
         Pageable page;
         List list;
         validator.isCookieNullAdmin(httpReq);
         switch (command) {
             case "info":
-                return Collections.singletonList("Commands: prodCat, categories, clientsDetails, purchases, lightPurchases, topProducts," +
+                return Collections.singletonList("Commands: prodCat, categories, clientsDetails, purchases, " +
+                        "lightPurchases, topProducts," +
                         " totalRevenue");
             case "prodCat":
                 if (offset == null || limit == null) {
@@ -272,8 +275,8 @@ public class PurchaseServiceImpl implements PurchaseService {
             case "totalRevenue":
                 return giveRevenue();
             default:
-                throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.WRONG_COMMAND, "command",
-                        ServerErrors.WRONG_COMMAND.getErrorMessage())));
+                throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.WRONG_COMMAND,
+                        "command", ServerErrors.WRONG_COMMAND.getErrorMessage())));
         }
     }
 

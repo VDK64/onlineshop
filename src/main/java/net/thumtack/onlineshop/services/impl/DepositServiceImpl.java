@@ -31,7 +31,7 @@ public class DepositServiceImpl implements DepositService {
 
     @Override
     public ResponseClientDto addDeposit(HttpServletRequest httpReq,
-                                        RequestDepositDto requestDepositDto) throws ServerExceptions {
+                                        RequestDepositDto requestDepositDto) {
         validator.checkCookie(httpReq.getCookies());
         String login = clientService.giveClientLoginByCookie(httpReq.getCookies());
         validator.negativeDepo(requestDepositDto.getDeposit());
@@ -41,13 +41,13 @@ public class DepositServiceImpl implements DepositService {
     }
 
     @Override
-    public ResponseClientDto withdraw(HttpServletRequest httpReq) throws ServerExceptions {
+    public ResponseClientDto withdraw(HttpServletRequest httpReq) {
         validator.checkCookieClient(httpReq.getCookies());
         String login = clientService.giveClientLoginByCookie(httpReq.getCookies());
         Client client = clientRepository.findByLogin(login).orElse(new Client());
         if (client.getDeposit() == 0)
-            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.WRONG_WITHDRAW, "deposit",
-                    ServerErrors.WRONG_WITHDRAW.getErrorMessage())));
+            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.WRONG_WITHDRAW,
+                    "deposit", ServerErrors.WRONG_WITHDRAW.getErrorMessage())));
         client.setDeposit(0);
         return new ResponseClientDto(clientRepository.save(client));
     }

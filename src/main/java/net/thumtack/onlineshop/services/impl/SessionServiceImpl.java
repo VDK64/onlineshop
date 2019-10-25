@@ -34,7 +34,7 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public LoginResponse logIn(RequestLoginDto requestLoginDto, HttpServletRequest request) throws ServerExceptions {
+    public LoginResponse logIn(RequestLoginDto requestLoginDto, HttpServletRequest request) {
         ResponseAdminDto respAdmin;
         ResponseClientDto respClient;
        Optional<? extends User> optional =  validator.validLogin(requestLoginDto.getLogin());
@@ -58,15 +58,15 @@ public class SessionServiceImpl implements SessionService {
                }
            }
        }
-       throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.WRONG_PASSWORD_LOG_IN, "login/password",
-               ServerErrors.WRONG_PASSWORD_LOG_IN.getErrorMessage())));
+       throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.WRONG_PASSWORD_LOG_IN,
+               "login/password", ServerErrors.WRONG_PASSWORD_LOG_IN.getErrorMessage())));
     }
 
     @Override
-    public void logOut(HttpServletRequest httpReq) throws ServerExceptions {
+    public void logOut(HttpServletRequest httpReq) {
         if (httpReq.getCookies() == null) {
-            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.ALREADY_LOG_OUT, "cookie",
-                    ServerErrors.ALREADY_LOG_IN.getErrorMessage())));
+            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.ALREADY_LOG_OUT,
+                    "cookie", ServerErrors.ALREADY_LOG_IN.getErrorMessage())));
         }
         for (Cookie cookie : httpReq.getCookies()){
             Optional<CookieData> optCook = cookieRepo.findById(cookie.getValue());

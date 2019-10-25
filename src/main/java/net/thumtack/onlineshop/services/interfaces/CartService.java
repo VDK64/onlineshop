@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface CartService {
 
-    ResponseCartDto addCartProduct(HttpServletRequest httpReq, RequestProductBuyDto request) throws ServerExceptions;
-    void deleteCartProduct(HttpServletRequest httpReq, Integer id) throws ServerExceptions;
-    ResponseCartDto updateCartProduct(HttpServletRequest httpReq, RequestProductBuyDto request) throws ServerExceptions;
-    public ResponseCartDto allCartProducts(HttpServletRequest httpReq) throws ServerExceptions;
+    ResponseCartDto addCartProduct(HttpServletRequest httpReq, RequestProductBuyDto request);
+    void deleteCartProduct(HttpServletRequest httpReq, Integer id);
+    ResponseCartDto updateCartProduct(HttpServletRequest httpReq, RequestProductBuyDto request);
+    public ResponseCartDto allCartProducts(HttpServletRequest httpReq);
 }

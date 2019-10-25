@@ -37,7 +37,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public ResponseAdminDto regAdmin(RequestAdminDto reqAdmin) throws ServerExceptions {
+    public ResponseAdminDto regAdmin(RequestAdminDto reqAdmin) {
         List<RespError> errorList;
         Administrator admin = reqAdmin.buildAdmin();
         errorList = validator.regCheckAdmin(admin);
@@ -50,7 +50,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public ResponseAdminChangePassDto updateAdmin(RequestChangePassAdminDto requestChangePassAdminDto,
-                                                  HttpServletRequest httpReq) throws ServerExceptions {
+                                                  HttpServletRequest httpReq) {
         validator.isCookieNullAdmin(httpReq);
         requestChangePassAdminDto.setLogin(giveAdminLoginByCookie(httpReq.getCookies()));
         Optional<Administrator> adminFromDB = administratorRepository.findByLogin(requestChangePassAdminDto.getLogin());
@@ -62,7 +62,7 @@ public class AdminServiceImpl implements AdminService {
         if (!errorList.isEmpty()) { throw new ServerExceptions(errorList); }
         Administrator admin = adminFromDB.get();
         if (!admin.getPassword().equals(requestChangePassAdminDto.getOldPassword())) {
-            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.WRONG_PASSWORD_LOG_IN, "passwrod",
+            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.WRONG_PASSWORD_LOG_IN, "password",
                     ServerErrors.WRONG_PASSWORD_LOG_IN.getErrorMessage())));
         }
         validator.checkPassword(requestChangePassAdminDto.getNewPassword());
@@ -73,7 +73,7 @@ public class AdminServiceImpl implements AdminService {
         return respAdmin;
     }
 
-    public String giveAdminLoginByCookie(Cookie[] cookies) throws ServerExceptions {
+    public String giveAdminLoginByCookie(Cookie[] cookies) {
         int cookieCount = 0;
         Optional<CookieData> testCookie = Optional.empty();
         for (Cookie cookie : cookies) {

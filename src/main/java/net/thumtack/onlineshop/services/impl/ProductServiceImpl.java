@@ -32,14 +32,15 @@ public class ProductServiceImpl implements ProductService {
     private Validator validator;
 
     @Autowired
-    ProductServiceImpl(ProductRepository productRepository, Validator validator, CategoryRepository categoryRepository) {
+    ProductServiceImpl(ProductRepository productRepository, Validator validator,
+                       CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.validator = validator;
     }
 
     @Override
-    public ResponseProductDto addProduct(HttpServletRequest httpReq, RequestProductDto requestProductDto) throws ServerExceptions {
+    public ResponseProductDto addProduct(HttpServletRequest httpReq, RequestProductDto requestProductDto) {
         List<RespError> errorList = new ArrayList<>();
         validator.isCookieNullAdmin(httpReq);
         errorList = validator.checkPrice(requestProductDto.getPrice(), errorList);
@@ -60,20 +61,22 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ResponseProductDto updateProduct(HttpServletRequest httpReq, Integer id,
-                                            RequestProductDto requestProductDto) throws ServerExceptions {
+                                            RequestProductDto requestProductDto) {
         List<RespError> errorList = new ArrayList<>();
         validator.isCookieNullAdmin(httpReq);
         requestProductDto.setId(id);
         errorList = validator.checkPriceUpdate(requestProductDto.getPrice(), errorList);
         Product oldProd = productRepository.findById(requestProductDto.getId()).orElseThrow(() -> new ServerExceptions(
-                Collections.singletonList(new RespError(ServerErrors.WRONG_PRODUCT,"id", ServerErrors.WRONG_PRODUCT.getErrorMessage()))));
+                Collections.singletonList(new RespError(ServerErrors.WRONG_PRODUCT,"id",
+                        ServerErrors.WRONG_PRODUCT.getErrorMessage()))));
         Product product = requestProductDto.createProductWithoutCat();
         product.setId(requestProductDto.getId());
         if (requestProductDto.getCategories() != null) {
             for (Integer id1 : requestProductDto.getCategories()) {
                 Optional<Category> optCat = categoryRepository.findById(id1);
                 if (!optCat.isPresent()) {
-                    errorList.add(new RespError(ServerErrors.WRONG_CATEGORY_ABSENT, "category", ServerErrors.WRONG_CATEGORY_ABSENT.getErrorMessage()));
+                    errorList.add(new RespError(ServerErrors.WRONG_CATEGORY_ABSENT, "category",
+                            ServerErrors.WRONG_CATEGORY_ABSENT.getErrorMessage()));
                 }
                 optCat.ifPresent(category -> product.getCategories().add(category));
             }
@@ -97,7 +100,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteProduct(HttpServletRequest httpReq, Integer id) throws ServerExceptions {
+    public void deleteProduct(HttpServletRequest httpReq, Integer id) {
         validator.isCookieNullAdmin(httpReq);
         Optional<Product> prodOpt = productRepository.findById(id);
         if (!prodOpt.isPresent())
@@ -107,7 +110,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ResponseProductInfoDto infoProduct(HttpServletRequest httpReq, Integer id) throws ServerExceptions {
+    public ResponseProductInfoDto infoProduct(HttpServletRequest httpReq, Integer id) {
         validator.checkCookie(httpReq.getCookies());
         Optional<Product> prodOpt = productRepository.findById(id);
         if (!prodOpt.isPresent())
@@ -122,19 +125,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Set productsSet(List<Integer> categories) throws ServerExceptions {
+    public Set productsSet(List<Integer> categories) {
         List<ResponseProductInfoDto> resultList = getProducts(categories);
         return new HashSet<>(resultList);
     }
 
     @Override
-    public List<ResponseProductInfoDto> productsList(List<Integer> categories) throws ServerExceptions {
+    public List<ResponseProductInfoDto> productsList(List<Integer> categories) {
         List<ResponseProductInfoDto> resultList = getProducts(categories);
         resultList = getSortedProductsByList(resultList);
         return resultList;
     }
 
-    private List<ResponseProductInfoDto> getProducts(List<Integer> categories) throws ServerExceptions {
+    private List<ResponseProductInfoDto> getProducts(List<Integer> categories) {
         List<ResponseProductInfoDto> result = new ArrayList<>();
         if (categories == null) {
             Iterable <Product> prod;

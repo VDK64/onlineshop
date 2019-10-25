@@ -28,7 +28,7 @@ public class ClientController {
     }
 
     @PostMapping("clients")
-    public ResponseEntity regClient(HttpServletResponse httpResp, @RequestBody RequestClientDto reqClient) throws ServerExceptions {
+    public ResponseEntity regClient(HttpServletResponse httpResp, @RequestBody RequestClientDto reqClient) {
         ResponseClientDto respClient;
         respClient = clientService.regUser(reqClient);
         httpResp.addCookie(clientService.createCookieClient(reqClient.getLogin()));
@@ -36,13 +36,12 @@ public class ClientController {
     }
 
     @PutMapping("clients")
-    public ResponseEntity updateClient(HttpServletRequest httpReq, @RequestBody RequestChangePassClientDto reqChPassClient) throws ServerExceptions {
+    public ResponseEntity updateClient(HttpServletRequest httpReq, @RequestBody RequestChangePassClientDto reqChPassClient) {
         return ResponseEntity.ok(clientService.updateUser(httpReq, reqChPassClient));
-
     }
 
     @GetMapping("clients")
-    public ResponseEntity userInfo(HttpServletRequest httpReq) throws ServerExceptions {
+    public ResponseEntity userInfo(HttpServletRequest httpReq) {
         return ResponseEntity.ok(clientService.userInfo(httpReq));
     }
 }

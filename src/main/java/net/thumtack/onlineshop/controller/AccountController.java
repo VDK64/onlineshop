@@ -22,7 +22,7 @@ public class AccountController {
     }
 
     @GetMapping("accounts")
-    public ResponseEntity info(HttpServletRequest httpReq) throws ServerExceptions {
+    public ResponseEntity info(HttpServletRequest httpReq) {
         LoginResponse logResp;
         logResp = accountService.info(httpReq);
         return ResponseEntity.ok(logResp.toString());

@@ -7,6 +7,6 @@ import net.thumtack.onlineshop.exceptions.ServerExceptions;
 import javax.servlet.http.HttpServletRequest;
 
 public interface SessionService {
-    LoginResponse logIn (RequestLoginDto requestLoginDto, HttpServletRequest request) throws ServerExceptions;
-    void logOut (HttpServletRequest httpReq) throws ServerExceptions;
+    LoginResponse logIn (RequestLoginDto requestLoginDto, HttpServletRequest request);
+    void logOut (HttpServletRequest httpReq);
 }

@@ -39,7 +39,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ResponseClientDto regUser(RequestClientDto reqClient) throws ServerExceptions {
+    public ResponseClientDto regUser(RequestClientDto reqClient) {
         List<RespError> errorList;
         Client client = reqClient.createClient();
         client.setDeposit(0);
@@ -53,19 +53,19 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public ResponseClientChangePassDto updateUser(HttpServletRequest httpReq,
-                                                  RequestChangePassClientDto reqChPassClient) throws ServerExceptions {
+                                                  RequestChangePassClientDto reqChPassClient) {
         validator.isCookieNullCLient(httpReq);
         List<RespError> errorList = validator.checkClientToChangePass(reqChPassClient);
         reqChPassClient.setLogin(giveClientLoginByCookie(httpReq.getCookies()));
         Optional<Client> clientFromDB = clientRepository.findByLogin(reqChPassClient.getLogin());
         if (!clientFromDB.isPresent()) {
-            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.INVALID_COOKIE, "cookie",
-                    ServerErrors.INVALID_COOKIE.getErrorMessage())));
+            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.INVALID_COOKIE,
+                    "cookie", ServerErrors.INVALID_COOKIE.getErrorMessage())));
         }
         Client client = clientFromDB.get();
         if (!client.getPassword().equals(reqChPassClient.getOldPassword())) {
-            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.WRONG_PASSWORD, "password",
-                    ServerErrors.WRONG_PASSWORD.getErrorMessage())));
+            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.WRONG_PASSWORD,
+                    "password", ServerErrors.WRONG_PASSWORD.getErrorMessage())));
         }
         if (!errorList.isEmpty()){
             throw new ServerExceptions(errorList);
@@ -76,7 +76,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public List<ResponseClientsInfoDto> userInfo(HttpServletRequest httpReq) throws ServerExceptions {
+    public List<ResponseClientsInfoDto> userInfo(HttpServletRequest httpReq) {
         validator.isCookieNullAdmin(httpReq);
         Iterable<Client> clients = clientRepository.findAll();
         List<ResponseClientsInfoDto> list = new ArrayList<>();
@@ -86,7 +86,7 @@ public class ClientServiceImpl implements ClientService {
         return list;
     }
 
-    public String giveClientLoginByCookie(Cookie[] cookies) throws ServerExceptions {
+    public String giveClientLoginByCookie(Cookie[] cookies) {
         int i = 0;
         Optional<CookieData> testCookie = Optional.empty();
         for (Cookie cookie: cookies){

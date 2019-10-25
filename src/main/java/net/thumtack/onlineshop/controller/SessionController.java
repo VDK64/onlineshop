@@ -28,7 +28,8 @@ public class SessionController {
     private ClientService clientService;
 
     @Autowired
-    public SessionController(SessionService sessionService, Validator validator, AdminService adminService, ClientService clientService) {
+    public SessionController(SessionService sessionService, Validator validator, AdminService adminService,
+                             ClientService clientService) {
         this.sessionService = sessionService;
         this.adminService = adminService;
         this.clientService = clientService;
@@ -36,7 +37,7 @@ public class SessionController {
 
     @PostMapping("sessions")
     public ResponseEntity logIn(HttpServletRequest httpReq, HttpServletResponse response,
-                                @RequestBody RequestLoginDto requestLoginDto) throws ServerExceptions {
+                                @RequestBody RequestLoginDto requestLoginDto) {
         LoginResponse logResp;
         logResp = sessionService.logIn(requestLoginDto, httpReq);
         if (logResp.whoIs().equalsIgnoreCase("admin"))
@@ -46,7 +47,7 @@ public class SessionController {
     }
 
     @DeleteMapping("sessions")
-    public ResponseEntity logOut(HttpServletRequest httpReq) throws ServerExceptions {
+    public ResponseEntity logOut(HttpServletRequest httpReq) {
         sessionService.logOut(httpReq);
         return ResponseEntity.ok(ResponseEmptyDto.voidResponse);
     }

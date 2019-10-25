@@ -28,13 +28,13 @@ public class CartController {
     }
 
     @PostMapping("baskets")
-    public ResponseEntity addCartProduct(HttpServletRequest httpReq, @RequestBody RequestProductBuyDto request) throws ServerExceptions {
+    public ResponseEntity addCartProduct(HttpServletRequest httpReq, @RequestBody RequestProductBuyDto request) {
         return ResponseEntity.ok(cartService.addCartProduct(httpReq, request));
 
     }
 
     @DeleteMapping("baskets/{id}")
-    public ResponseEntity deleteCartProduct(HttpServletRequest httpReq, @PathVariable Integer id) throws ServerExceptions {
+    public ResponseEntity deleteCartProduct(HttpServletRequest httpReq, @PathVariable Integer id) {
         cartService.deleteCartProduct(httpReq, id);
         return ResponseEntity.ok(ResponseEmptyDto.voidResponse);
 
@@ -42,13 +42,13 @@ public class CartController {
 
     @PutMapping("baskets")
     public ResponseEntity updateCartProduct(HttpServletRequest httpReq,
-                                            @RequestBody RequestProductBuyDto request) throws ServerExceptions {
+                                            @RequestBody RequestProductBuyDto request) {
         return ResponseEntity.ok(cartService.updateCartProduct(httpReq, request));
 
     }
 
     @GetMapping("baskets")
-    public ResponseEntity allCartProducts(HttpServletRequest httpReq) throws ServerExceptions {
+    public ResponseEntity allCartProducts(HttpServletRequest httpReq) {
         return ResponseEntity.ok(cartService.allCartProducts(httpReq));
 
     }

@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface PurchaseService {
-    ResponseProductBuyDto buyProduct(HttpServletRequest httpReq, RequestProductBuyDto request) throws ServerExceptions;
-    ResponseCartBuyDto buyCartProducts(HttpServletRequest httpReq, List<RequestProductBuyDto> buyReq) throws ServerExceptions;
+    ResponseProductBuyDto buyProduct(HttpServletRequest httpReq, RequestProductBuyDto request);
+    ResponseCartBuyDto buyCartProducts(HttpServletRequest httpReq, List<RequestProductBuyDto> buyReq);
     List commonTableInfo(HttpServletRequest httpReq, String command, List<Integer> value, Integer offset,
-                         Integer limit) throws ServerExceptions;
+                         Integer limit);
 }

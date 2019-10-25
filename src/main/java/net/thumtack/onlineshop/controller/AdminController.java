@@ -29,7 +29,7 @@ public class AdminController {
 
     @PostMapping("admins")
     public ResponseEntity regAdmin(HttpServletResponse response,
-                                   @RequestBody RequestAdminDto reqAdmin) throws ServerExceptions {
+                                   @RequestBody RequestAdminDto reqAdmin) {
         ResponseAdminDto respAdmin;
         respAdmin = adminService.regAdmin(reqAdmin);
         response.addCookie(adminService.createCookieAdmin(reqAdmin.getLogin()));
@@ -38,7 +38,7 @@ public class AdminController {
 
     @PutMapping("admins")
     public ResponseEntity updateAdmin(HttpServletRequest httpReq,
-                                      @RequestBody RequestChangePassAdminDto requestChangePass) throws ServerExceptions {
+                                      @RequestBody RequestChangePassAdminDto requestChangePass) {
             return ResponseEntity.ok(adminService.updateAdmin(requestChangePass, httpReq));
     }
 }

@@ -44,7 +44,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public ResponseCartDto addCartProduct(HttpServletRequest httpReq, RequestProductBuyDto request) throws ServerExceptions {
+    public ResponseCartDto addCartProduct(HttpServletRequest httpReq, RequestProductBuyDto request) {
         List<RespError> errorList = new ArrayList<>();
         validator.isCookieNullCLient(httpReq);
         String login = clientService.giveClientLoginByCookie(httpReq.getCookies());
@@ -79,7 +79,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void deleteCartProduct(HttpServletRequest httpReq, Integer id) throws ServerExceptions {
+    public void deleteCartProduct(HttpServletRequest httpReq, Integer id) {
         validator.isCookieNullCLient(httpReq);
         String login = clientService.giveClientLoginByCookie(httpReq.getCookies());
         Client client = clientRepository.findByLogin(login)
@@ -95,7 +95,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public ResponseCartDto updateCartProduct(HttpServletRequest httpReq, RequestProductBuyDto request) throws ServerExceptions {
+    public ResponseCartDto updateCartProduct(HttpServletRequest httpReq, RequestProductBuyDto request) {
         List<RespError> errorList = new ArrayList<>();
         validator.isCookieNullCLient(httpReq);
         Client client = null;
@@ -138,7 +138,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public ResponseCartDto allCartProducts(HttpServletRequest httpReq) throws ServerExceptions {
+    public ResponseCartDto allCartProducts(HttpServletRequest httpReq) {
         validator.isCookieNullCLient(httpReq);
         ResponseCartDto response = new ResponseCartDto();
         Client client = null;

@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface DepositService {
 
-    ResponseClientDto addDeposit(HttpServletRequest httpReq, RequestDepositDto requestDepositDto) throws ServerExceptions;
-    ResponseClientDto withdraw(HttpServletRequest httpReq) throws ServerExceptions;
+    ResponseClientDto addDeposit(HttpServletRequest httpReq, RequestDepositDto requestDepositDto);
+    ResponseClientDto withdraw(HttpServletRequest httpReq);
 
 }

@@ -33,7 +33,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public LoginResponse info(HttpServletRequest httpReq) throws ServerExceptions {
+    public LoginResponse info(HttpServletRequest httpReq) {
         Optional<? extends User> optional;
         Cookie cookie = validator.checkCookie(httpReq.getCookies());
         Optional<CookieData> cookieData = cookRepo.findById(cookie.getValue());

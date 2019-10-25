@@ -25,14 +25,13 @@ public class DepositController {
     }
 
     @PutMapping("deposits")
-    public ResponseEntity addDeposit(HttpServletRequest httpReq, @RequestBody RequestDepositDto requestDepositDto) throws ServerExceptions {
+    public ResponseEntity addDeposit(HttpServletRequest httpReq, @RequestBody RequestDepositDto requestDepositDto) {
         return ResponseEntity.ok(depositService.addDeposit(httpReq, requestDepositDto));
 
     }
 
     @GetMapping("deposits")
-    public ResponseEntity withdraw(HttpServletRequest httpReq) throws ServerExceptions {
+    public ResponseEntity withdraw(HttpServletRequest httpReq) {
         return ResponseEntity.ok(depositService.withdraw(httpReq));
-
     }
 }

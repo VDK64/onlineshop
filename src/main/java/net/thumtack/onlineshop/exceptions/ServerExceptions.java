@@ -8,7 +8,7 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = false)
 @Data
-public class ServerExceptions extends Exception{
+public class ServerExceptions extends RuntimeException{
     private String errorCode;
     private String field;
     private String message;

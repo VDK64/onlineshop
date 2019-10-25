@@ -34,7 +34,7 @@ public class CategoriesServiceImpl implements CategoriesService {
 
     @Override
     public ResponseCategoryDto addCat(HttpServletRequest httpReq,
-                                      RequestCategoryDto requestCategoryDto) throws ServerExceptions {
+                                      RequestCategoryDto requestCategoryDto) {
         validator.isCookieNullAdmin(httpReq);
         Optional<Category> optCat;
         ResponseCategoryDto respCat = new ResponseCategoryDto();
@@ -66,7 +66,7 @@ public class CategoriesServiceImpl implements CategoriesService {
     }
 
     @Override
-    public ResponseCategoryDto getCat(HttpServletRequest httpReq, Integer id) throws ServerExceptions {
+    public ResponseCategoryDto getCat(HttpServletRequest httpReq, Integer id) {
         validator.isCookieNullAdmin(httpReq);
         ResponseCategoryDto respCat = new ResponseCategoryDto();
         Optional<Category> category = categoryRepository.findById(id);
@@ -94,15 +94,14 @@ public class CategoriesServiceImpl implements CategoriesService {
     }
 
     @Override
-    public ResponseCategoryDto updateCat(HttpServletRequest httpReq, RequestCategoryDto requestCategoryDto, Integer id)
-            throws ServerExceptions {
+    public ResponseCategoryDto updateCat(HttpServletRequest httpReq, RequestCategoryDto requestCategoryDto, Integer id) {
         validator.isCookieNullAdmin(httpReq);
         Optional<Category> optCat = categoryRepository.findById(id);
         Category savedCat;
         Optional<Category> parentCat = Optional.empty();
         if (!optCat.isPresent()) {
-            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.WRONG_CATEGORY_ABSENT, "parentId",
-                    ServerErrors.WRONG_CATEGORY_ABSENT.getErrorMessage())));
+            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.WRONG_CATEGORY_ABSENT,
+                    "parentId", ServerErrors.WRONG_CATEGORY_ABSENT.getErrorMessage())));
         }
         Category category = optCat.get();
         validator.validateCategories(category, requestCategoryDto);
@@ -124,12 +123,12 @@ public class CategoriesServiceImpl implements CategoriesService {
 
     @Override
     @Transactional
-    public void deleteCat(HttpServletRequest httpReq, Integer id) throws ServerExceptions {
+    public void deleteCat(HttpServletRequest httpReq, Integer id) {
         validator.isCookieNullAdmin(httpReq);
         Optional<Category> category = categoryRepository.findById(id);
         if (!category.isPresent()) {
-            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.WRONG_CATEGORY_ABSENT, "id",
-                    ServerErrors.WRONG_CATEGORY_ABSENT.getErrorMessage())));
+            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.WRONG_CATEGORY_ABSENT,
+                    "id", ServerErrors.WRONG_CATEGORY_ABSENT.getErrorMessage())));
         }
         List<Product> products = category.get().getProducts();
         for (Product prod : products){
@@ -146,7 +145,7 @@ public class CategoriesServiceImpl implements CategoriesService {
     }
 
     @Override
-    public List<ResponseCategoryDto> getAllCat(HttpServletRequest httpReq) throws ServerExceptions {
+    public List<ResponseCategoryDto> getAllCat(HttpServletRequest httpReq) {
         validator.isCookieNullAdmin(httpReq);
         List<ResponseCategoryDto> response = new ArrayList<>();
         Sort castSort = new Sort(Sort.Direction.ASC, "name");

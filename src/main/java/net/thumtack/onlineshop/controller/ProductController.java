@@ -42,25 +42,24 @@ public class ProductController {
 
     @PostMapping("products")
     public ResponseEntity addProduct(HttpServletRequest httpReq,
-                                     @RequestBody RequestProductDto requestProductDto) throws ServerExceptions {
+                                     @RequestBody RequestProductDto requestProductDto) {
         return ResponseEntity.ok(productService.addProduct(httpReq, requestProductDto));
-
     }
 
     @PutMapping("products/{id}")
-    public ResponseEntity updateProduct(HttpServletRequest httpReq, @PathVariable Integer id, @RequestBody RequestProductDto requestProductDto) throws ServerExceptions {
+    public ResponseEntity updateProduct(HttpServletRequest httpReq, @PathVariable Integer id,
+                                        @RequestBody RequestProductDto requestProductDto) {
         return ResponseEntity.ok(productService.updateProduct(httpReq, id, requestProductDto));
-
     }
 
     @DeleteMapping("products/{id}")
-    public ResponseEntity deleteProduct(HttpServletRequest httpReq, @PathVariable Integer id) throws ServerExceptions {
+    public ResponseEntity deleteProduct(HttpServletRequest httpReq, @PathVariable Integer id) {
         productService.deleteProduct(httpReq, id);
         return ResponseEntity.ok(ResponseEmptyDto.voidResponse);
     }
 
     @GetMapping("products/{id}")
-    public ResponseEntity infoProduct(HttpServletRequest httpReq, @PathVariable Integer id) throws ServerExceptions {
+    public ResponseEntity infoProduct(HttpServletRequest httpReq, @PathVariable Integer id) {
         return ResponseEntity.ok(productService.infoProduct(httpReq, id));
 
     }
@@ -68,7 +67,7 @@ public class ProductController {
     @GetMapping("products")
     public ResponseEntity productsList(HttpServletRequest httpReq,
                                        @RequestParam(required = false) List<Integer> categories,
-                                       @RequestParam(required = false) String order) throws ServerExceptions {
+                                       @RequestParam(required = false) String order) {
         List respList = new ArrayList();
         Set respSet = new TreeSet();
         validator.checkCookie(httpReq.getCookies());

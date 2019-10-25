@@ -29,22 +29,21 @@ public class PurchaseController {
 
     @PostMapping("purchases")
     public ResponseEntity buyProduct(HttpServletRequest httpReq,
-                                     @RequestBody RequestProductBuyDto request) throws ServerExceptions {
+                                     @RequestBody RequestProductBuyDto request) {
         return ResponseEntity.ok(purchaseService.buyProduct(httpReq, request));
     }
 
     @PostMapping("purchases/baskets")
     public ResponseEntity buyCartProducts(HttpServletRequest httpReq,
-                                          @RequestBody List<RequestProductBuyDto> buyReq) throws ServerExceptions {
+                                          @RequestBody List<RequestProductBuyDto> buyReq) {
         return ResponseEntity.ok(purchaseService.buyCartProducts(httpReq, buyReq));
-
     }
 
     @GetMapping("purchases")
     public ResponseEntity commonTableInfo(HttpServletRequest httpReq, @RequestParam String command,
                                           @RequestParam(required = false) List<Integer> value,
                                           @RequestParam(required = false) Integer offset,
-                                          @RequestParam(required = false) Integer limit) throws ServerExceptions {
+                                          @RequestParam(required = false) Integer limit) {
         return ResponseEntity.ok(purchaseService.commonTableInfo(httpReq, command, value, offset, limit));
     }
 }

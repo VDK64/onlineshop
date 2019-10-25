@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface CategoriesService {
 
-    ResponseCategoryDto addCat(HttpServletRequest httpReq, RequestCategoryDto requestCategoryDto) throws ServerExceptions;
-    ResponseCategoryDto getCat(HttpServletRequest httpReq, Integer id) throws ServerExceptions;
-    ResponseCategoryDto updateCat(HttpServletRequest httpReq, RequestCategoryDto requestCategoryDto, Integer id) throws ServerExceptions;
-    void deleteCat(HttpServletRequest httpReq, Integer id) throws ServerExceptions;
-    List<ResponseCategoryDto> getAllCat(HttpServletRequest httpReq) throws ServerExceptions;
+    ResponseCategoryDto addCat(HttpServletRequest httpReq, RequestCategoryDto requestCategoryDto);
+    ResponseCategoryDto getCat(HttpServletRequest httpReq, Integer id);
+    ResponseCategoryDto updateCat(HttpServletRequest httpReq, RequestCategoryDto requestCategoryDto, Integer id);
+    void deleteCat(HttpServletRequest httpReq, Integer id);
+    List<ResponseCategoryDto> getAllCat(HttpServletRequest httpReq);
 }

@@ -90,7 +90,7 @@ public class Validator {
         return errorList;
     }
 
-    public void checkPassword(String password) throws ServerExceptions {
+    public void checkPassword(String password) {
         if (password == null || password.equalsIgnoreCase("") || password.length() > maxNameLength ||
                 password.length() < minPasswordLength) {
            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.WRONG_PASSWORD, "password",
@@ -256,7 +256,7 @@ public class Validator {
     }
 
 
-    public Optional<? extends User> validLogin(String login) throws ServerExceptions {
+    public Optional<? extends User> validLogin(String login) {
         Optional<Administrator> optAdmin;
         Optional<Client> optClient;
         optAdmin = adminRepo.findByLogin(login);
@@ -268,89 +268,92 @@ public class Validator {
             return optClient;
         }
         else {
-            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.WRONG_lOGIN_ABSENT, "login",
-                ServerErrors.WRONG_lOGIN_ABSENT.getErrorMessage())));
+            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.WRONG_lOGIN_ABSENT,
+                    "login", ServerErrors.WRONG_lOGIN_ABSENT.getErrorMessage())));
         }
     }
 
-    private void checkCookieAdmin(Cookie[] cookies) throws ServerExceptions {
+    private void checkCookieAdmin(Cookie[] cookies) {
         int i = 0;
         boolean boo = false;
         if (cookies == null) {
-            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.INVALID_COOKIE, "cookie",
-                    ServerErrors.INVALID_COOKIE.getErrorMessage())));
+            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.INVALID_COOKIE,
+                    "cookie", ServerErrors.INVALID_COOKIE.getErrorMessage())));
         } else {
             for (Cookie cookie : cookies) {
-                if (cookieRepo.findById(cookie.getValue()).isPresent() && cookie.getName().equalsIgnoreCase("admin")) {
+                if (cookieRepo.findById(cookie.getValue()).isPresent() && cookie.getName().equalsIgnoreCase(
+                        "admin")) {
                     boo = true;
                     ++i;
                 }
             }
             if (i > 1) {
-                throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.MULTICOOCKING, "cookie",
-                        ServerErrors.MULTICOOCKING.getErrorMessage())));
+                throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.MULTICOOCKING,
+                        "cookie", ServerErrors.MULTICOOCKING.getErrorMessage())));
             }
             if (!boo) {
-                throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.INVALID_COOKIE, "cookie",
-                        ServerErrors.INVALID_COOKIE.getErrorMessage())));
+                throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.INVALID_COOKIE,
+                        "cookie", ServerErrors.INVALID_COOKIE.getErrorMessage())));
             }
         }
     }
 
-    public void checkCookieClient(Cookie[] cookies) throws ServerExceptions {
+    public void checkCookieClient(Cookie[] cookies) {
         int i = 0;
         boolean boo = false;
         if (cookies == null) {
-            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.INVALID_COOKIE, "cookie",
-                    ServerErrors.INVALID_COOKIE.getErrorMessage())));
+            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.INVALID_COOKIE,
+                    "cookie", ServerErrors.INVALID_COOKIE.getErrorMessage())));
         } else {
             for (Cookie cookie : cookies) {
-                if (cookieRepo.findById(cookie.getValue()).isPresent() && cookie.getName().equalsIgnoreCase("client")) {
+                if (cookieRepo.findById(cookie.getValue()).isPresent() && cookie.getName().equalsIgnoreCase(
+                        "client")) {
                     boo = true;
                     ++i;
                 }
             }
             if (i > 1) {
-               throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.MULTICOOCKING, "cookie",
-                       ServerErrors.MULTICOOCKING.getErrorMessage())));
+               throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.MULTICOOCKING,
+                       "cookie", ServerErrors.MULTICOOCKING.getErrorMessage())));
             }
             if (!boo) {
-                throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.INVALID_COOKIE, "cookie",
-                        ServerErrors.INVALID_COOKIE.getErrorMessage())));
+                throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.INVALID_COOKIE,
+                        "cookie", ServerErrors.INVALID_COOKIE.getErrorMessage())));
             }
         }
     }
 
-    public void isCookieNullAdmin(HttpServletRequest request) throws ServerExceptions {
+    public void isCookieNullAdmin(HttpServletRequest request) {
         if (request.getCookies() == null) {
-            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.INVALID_COOKIE, "cookie",
-                    ServerErrors.INVALID_COOKIE.getErrorMessage())));
+            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.INVALID_COOKIE,
+                    "cookie", ServerErrors.INVALID_COOKIE.getErrorMessage())));
         }
         checkCookieAdmin(request.getCookies());
     }
 
-    public Cookie checkCookie(Cookie[] cookies) throws ServerExceptions {
+    public Cookie checkCookie(Cookie[] cookies) {
         int i = 0;
         Cookie finalCookie = null;
         if (cookies == null) {
-            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.INVALID_COOKIE, "cookie",
-                    ServerErrors.INVALID_COOKIE.getErrorMessage())));
+            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.INVALID_COOKIE,
+                    "cookie", ServerErrors.INVALID_COOKIE.getErrorMessage())));
         }
         boolean boo = false;
         for (Cookie cookie : cookies) {
-            if (cookieRepo.findById(cookie.getValue()).isPresent() && cookie.getName().equalsIgnoreCase("admin")
+            if (cookieRepo.findById(cookie.getValue()).isPresent() && cookie.getName().equalsIgnoreCase(
+                    "admin")
                     || cookie.getName().equalsIgnoreCase("client")) {
                 boo = true;
                 ++i;
             }
         }
         if (!boo) {
-            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.INVALID_COOKIE, "cookie",
-                    ServerErrors.INVALID_COOKIE.getErrorMessage())));
+            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.INVALID_COOKIE,
+                    "cookie", ServerErrors.INVALID_COOKIE.getErrorMessage())));
         }
         if (i > 1) {
-            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.MULTICOOCKING, "cookie",
-                    ServerErrors.MULTICOOCKING.getErrorMessage())));
+            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.MULTICOOCKING,
+                    "cookie", ServerErrors.MULTICOOCKING.getErrorMessage())));
         }
         for (Cookie cookie : cookies) {
             if (cookie.getName().equalsIgnoreCase("admin")
@@ -361,14 +364,14 @@ public class Validator {
         return finalCookie;
     }
 
-    public void isCookieNullCLient(HttpServletRequest request) throws ServerExceptions {
+    public void isCookieNullCLient(HttpServletRequest request) {
         if (request.getCookies() == null)
-            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.INVALID_COOKIE, "cookie",
-                    ServerErrors.INVALID_COOKIE.getErrorMessage())));
+            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.INVALID_COOKIE,
+                    "cookie", ServerErrors.INVALID_COOKIE.getErrorMessage())));
         checkCookieClient(request.getCookies());
     }
 
-    public void nullCookieLoginAdmin(HttpServletRequest request) throws ServerExceptions {
+    public void nullCookieLoginAdmin(HttpServletRequest request) {
         try {
             isCookieNullAdmin(request);
         } catch (ServerExceptions ignored) { return; }
@@ -376,7 +379,7 @@ public class Validator {
                 ServerErrors.ALREADY_LOG_IN.getErrorMessage())));
     }
 
-    public void nullCookieLoginClient(HttpServletRequest request) throws ServerExceptions {
+    public void nullCookieLoginClient(HttpServletRequest request) {
         try {
             isCookieNullCLient(request);
         } catch (ServerExceptions ignored) { return; }
@@ -384,42 +387,44 @@ public class Validator {
                 ServerErrors.ALREADY_LOG_IN.getErrorMessage())));
     }
 
-    public void validateCategories(Category category, RequestCategoryDto reqCat) throws ServerExceptions {
+    public void validateCategories(Category category, RequestCategoryDto reqCat) {
         if (reqCat.getName() == null && reqCat.getParentId() == null) {
-            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.WRONG_REQUEST, "name, parentId",
-                    ServerErrors.WRONG_REQUEST.getErrorMessage())));
+            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.WRONG_REQUEST,
+                    "name, parentId", ServerErrors.WRONG_REQUEST.getErrorMessage())));
         }
-        if (reqCat.getName() != null && reqCat.getName().equalsIgnoreCase("") && category.getParentId().equals(reqCat.getParentId())) {
-            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.WRONG_REQUEST, "name, parentId",
-                    ServerErrors.WRONG_REQUEST.getErrorMessage())));
+        if (reqCat.getName() != null && reqCat.getName().equalsIgnoreCase("") &&
+                category.getParentId().equals(reqCat.getParentId())) {
+            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.WRONG_REQUEST,
+                    "name, parentId", ServerErrors.WRONG_REQUEST.getErrorMessage())));
         }
         if (category.getParentId() == null || category.getParentId() == 0) {
             if (reqCat.getParentId() != null) {
                 if (reqCat.getParentId() != 0) {
-                    throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.WRONG_UPDATE_TURN, "parentId",
-                            ServerErrors.WRONG_UPDATE_TURN.getErrorMessage())));
+                    throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.WRONG_UPDATE_TURN,
+                            "parentId", ServerErrors.WRONG_UPDATE_TURN.getErrorMessage())));
                 }
             }
         }
         if (category.getId().equals(reqCat.getParentId())) {
-            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.WRONG_UPDATE_TURN, "parentId",
-                    ServerErrors.WRONG_UPDATE_TURN.getErrorMessage())));
+            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.WRONG_UPDATE_TURN,
+                    "parentId", ServerErrors.WRONG_UPDATE_TURN.getErrorMessage())));
         }
 
     }
 
-    public Optional<Category> getParentCat(RequestCategoryDto requestCategoryDto, Category category) throws ServerExceptions {
+    public Optional<Category> getParentCat(RequestCategoryDto requestCategoryDto, Category category) {
         Optional<Category> parentCat = Optional.empty();
         if (requestCategoryDto.getParentId() != null) {
             if (requestCategoryDto.getParentId() == 0 && category.getParentId() != 0) {
-                throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.WRONG_UPDATE_TURN, "parentId",
-                        ServerErrors.WRONG_UPDATE_TURN.getErrorMessage())));
+                throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.WRONG_UPDATE_TURN,
+                        "parentId", ServerErrors.WRONG_UPDATE_TURN.getErrorMessage())));
             }
             if (requestCategoryDto.getParentId() != 0) {
                 category.setParentId(requestCategoryDto.getParentId());
                 parentCat = categoryRepository.findById(requestCategoryDto.getParentId());
                 if (!parentCat.isPresent()) {
-                    throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.WRONG_CATEGORY_ABSENT,
+                    throw new ServerExceptions(Collections.singletonList(new RespError(
+                            ServerErrors.WRONG_CATEGORY_ABSENT,
                             "parentId", ServerErrors.WRONG_CATEGORY_ABSENT.getErrorMessage())));
                 }
             }
@@ -438,7 +443,8 @@ public class Validator {
 
     public List<RespError> checkPrice(Integer price, List<RespError> errorList) {
         if (price <= 0) {
-            errorList.add(new RespError(ServerErrors.WRONG_PRICE, "price", ServerErrors.WRONG_PRICE.getErrorMessage()));
+            errorList.add(new RespError(ServerErrors.WRONG_PRICE, "price",
+                    ServerErrors.WRONG_PRICE.getErrorMessage()));
         }
         return errorList;
     }
@@ -446,22 +452,24 @@ public class Validator {
     public List<RespError> checkPriceUpdate(Integer price, List<RespError> errorList) {
         if (price != null)
             if (price <= 0) {
-                errorList.add(new RespError(ServerErrors.WRONG_PRICE, "price", ServerErrors.WRONG_PRICE.getErrorMessage()));
+                errorList.add(new RespError(ServerErrors.WRONG_PRICE, "price",
+                        ServerErrors.WRONG_PRICE.getErrorMessage()));
             }
         return errorList;
     }
 
-    public void negativeDepo(Integer depo) throws ServerExceptions {
+    public void negativeDepo(Integer depo) {
         if (depo <= 0)
-            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.WRONG_DEPOSIT, "deposit",
-                    ServerErrors.WRONG_DEPOSIT.getErrorMessage())));
+            throw new ServerExceptions(Collections.singletonList(new RespError(ServerErrors.WRONG_DEPOSIT,
+                    "deposit", ServerErrors.WRONG_DEPOSIT.getErrorMessage())));
     }
 
     public List<RespError> validPurchase(Client client, Product product, RequestProductBuyDto request,
-                              List<RespError> errorList) throws ServerExceptions {
+                              List<RespError> errorList) {
         validAddCart(product, request, errorList);
         if (request.getCount() > product.getCount()) {
-            errorList.add(new RespError(ServerErrors.WRONG_COUNT, "count", ServerErrors.WRONG_COUNT.getErrorMessage()));
+            errorList.add(new RespError(ServerErrors.WRONG_COUNT, "count",
+                    ServerErrors.WRONG_COUNT.getErrorMessage()));
         }
         if (client.getDeposit() < request.getCount() * request.getPrice())
             errorList.add(new RespError(ServerErrors.WRONG_PURCHASE_DEPOSIT,
@@ -470,7 +478,7 @@ public class Validator {
     }
 
     public List<RespError> validAddCart(Product product, RequestProductBuyDto request,
-                                        List<RespError> errorList) throws ServerExceptions {
+                                        List<RespError> errorList) {
         if (request.getCount() == null) {
             request.setCount(1);
         }

@@ -23,5 +23,4 @@ public class SettingsController {
     public ResponseEntity<ResponseSettingsDto> servSettings() {
         return ResponseEntity.ok(settingsService.servSettings());
     }
-
 }

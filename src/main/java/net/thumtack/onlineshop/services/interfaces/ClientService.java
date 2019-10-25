@@ -13,11 +13,11 @@ import java.util.List;
 
 public interface ClientService {
 
-    ResponseClientDto regUser(RequestClientDto reqClient) throws ServerExceptions;
+    ResponseClientDto regUser(RequestClientDto reqClient);
     ResponseClientChangePassDto updateUser(HttpServletRequest httpReq,
-                                           RequestChangePassClientDto requestChangePassClientDto) throws ServerExceptions;
-    List<ResponseClientsInfoDto> userInfo(HttpServletRequest httpReq) throws ServerExceptions;
-    String giveClientLoginByCookie(Cookie[] cookies) throws ServerExceptions;
+                                           RequestChangePassClientDto requestChangePassClientDto);
+    List<ResponseClientsInfoDto> userInfo(HttpServletRequest httpReq);
+    String giveClientLoginByCookie(Cookie[] cookies);
     Cookie createCookieClient(String login);
 
 }

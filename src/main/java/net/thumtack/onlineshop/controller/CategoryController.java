@@ -30,14 +30,14 @@ public class CategoryController {
     }
 
     @PostMapping("categories")
-    public ResponseEntity addCat(HttpServletRequest httpReq, @RequestBody RequestCategoryDto requestCategoryDto) throws ServerExceptions {
+    public ResponseEntity addCat(HttpServletRequest httpReq, @RequestBody RequestCategoryDto requestCategoryDto) {
         ResponseCategoryDto responseCat;
         responseCat = categoriesService.addCat(httpReq, requestCategoryDto);
         return ResponseEntity.ok(responseCat);
     }
 
     @GetMapping("categories/{id}")
-    public ResponseEntity getCat(HttpServletRequest httpReq, @PathVariable Integer id) throws ServerExceptions {
+    public ResponseEntity getCat(HttpServletRequest httpReq, @PathVariable Integer id) {
         ResponseCategoryDto responseCat;
         responseCat = categoriesService.getCat(httpReq, id);
         return ResponseEntity.ok(responseCat);
@@ -45,20 +45,19 @@ public class CategoryController {
 
     @PutMapping("categories/{id}")
     public ResponseEntity updateCat(HttpServletRequest httpReq, @PathVariable Integer id,
-                                                         @RequestBody RequestCategoryDto requestCategoryDto) throws ServerExceptions {
+                                                         @RequestBody RequestCategoryDto requestCategoryDto) {
         return ResponseEntity.ok(categoriesService.updateCat(httpReq, requestCategoryDto, id));
 
     }
 
     @DeleteMapping("categories/{id}")
-    public ResponseEntity deleteCat(HttpServletRequest httpReq, @PathVariable Integer id) throws ServerExceptions {
+    public ResponseEntity deleteCat(HttpServletRequest httpReq, @PathVariable Integer id) {
         categoriesService.deleteCat(httpReq, id);
         return ResponseEntity.ok(ResponseEmptyDto.voidResponse);
     }
 
     @GetMapping("categories")
-    public ResponseEntity getAllCat(HttpServletRequest httpReq) throws ServerExceptions {
+    public ResponseEntity getAllCat(HttpServletRequest httpReq) {
         return ResponseEntity.ok(categoriesService.getAllCat(httpReq));
-
     }
 }

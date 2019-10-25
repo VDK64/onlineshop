@@ -10,9 +10,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 public interface AdminService {
-    ResponseAdminDto regAdmin(RequestAdminDto requestAdminDto) throws ServerExceptions;
+    ResponseAdminDto regAdmin(RequestAdminDto requestAdminDto);
     ResponseAdminChangePassDto updateAdmin(RequestChangePassAdminDto requestChangePassAdminDto,
-                                           HttpServletRequest httpReq) throws ServerExceptions;
-    String giveAdminLoginByCookie(Cookie[] cookies) throws ServerExceptions;
+                                           HttpServletRequest httpReq);
+    String giveAdminLoginByCookie(Cookie[] cookies);
     Cookie createCookieAdmin(String login);
 }
